@@ -1,4 +1,4 @@
-package tests
+package lint
 
 import (
 	"go/ast"
@@ -8,6 +8,15 @@ import (
 	"testing"
 )
 
+// TestNoBufferedChannels ensures that no buffered channels are used in the codebase.
+// Buffered channels are discouraged because they can hide deadlocks and make it harder
+// to reason about concurrent behavior. Unbuffered channels provide better synchronization
+// guarantees and make the flow of data more explicit.
+//
+// This test performs static analysis on the source code by:
+// 1. Parsing the specified Go files into Abstract Syntax Trees (AST)
+// 2. Walking through each AST to find channel creation expressions
+// 3. Checking if any channels are created with a buffer size
 func TestNoBufferedChannels(t *testing.T) {
 	// List of files to check for buffered channels
 	filesToCheck := []string{
