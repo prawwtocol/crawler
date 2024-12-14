@@ -29,6 +29,7 @@ linters-settings:
         list-mode: original
         files:
           - $all
+          - "!**/*_test.go"
         allow:
           - context
           - sync
